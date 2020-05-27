@@ -4,34 +4,25 @@ import { createAppContainer } from 'react-navigation';
 import {createStackNavigator } from 'react-navigation-stack';
 
 import HomePage from './pages/Home'
+import RegisterPage from './pages/Register'
+import LoginPage from './pages/Login'
 
-export default class App extends React.Component {
-  
-  render()
+const App = createStackNavigator({
+  //Constant which holds all the screens like index of any book 
+    HomePage: { screen: HomePage }, 
+    //First entry by default be our first screen if we do not define initialRouteName
+    RegisterPage: { screen: RegisterPage },
+    LoginPage: { screen: LoginPage },
+  },
   {
-    return (
-      <View style={{
-        backgroundColor: 'yellow',
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
-      }}>
-        <Image source={{ uri: 'https://docs.snapchat.com/static/7619bf5537237fa6abac3ddcfc1d379b/55a47/ghostlogo%402x.png' }} style={{ width: 70, height: 70 }} />)
-        <View style={{flexDirection : "row"}}>
-        <Button 
-          title="Login"
-        />
-         <Button
-          title="Register"
-          onPress={() =>
-            this.props.navigation.navigate('Register')
-          }
-        />
-        </View> 
-      </View>
-    );
+    initialRouteName: 'HomePage',
+    headerMode: 'none',
+    navigationOptions: {
+        headerVisible: false,
+    }
   }
-  
-}
+);
+
+export default createAppContainer(App);
 
 
