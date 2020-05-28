@@ -9,8 +9,38 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 export default function LoginPage() {
 
   const { register, setValue, handleSubmit, errors } = useForm();
-  const onSubmit = data => Alert.alert("Form Data", JSON.stringify(data));
+  // const onSubmit = data => Alert.alert("Form Data", JSON.stringify(data));
 
+  // useEffect(() => {
+  //   register({ name: "email" }, { required: true });
+  //   register({ name: "password" }, { required: true });
+  // }, [register]);
+
+  const onSubmit = function (data) {
+    // console.log(data.email);
+    // console.log(data.password);
+    console.log(data)
+    // fetch('http://snapi.epitech.eu/inscription', {
+    //   method: 'POST',
+    //   headers: {
+    //     Accept: 'application/json',
+    //     'Content-Type': 'application/json'
+    //   },
+    //   body: JSON.stringify({
+    //     email: data.email,
+    //     password: data.password
+    //   })
+    // });
+    fetch('http://snapi.epitech.eu/connection', {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: new Headers({
+        'Content-Type': 'application/json'
+      })
+    }).then(res => res.json())
+  .catch(error => console.error('Error: ', error))
+  .then(response => console.log('Success: ', response))
+  }
   useEffect(() => {
     register({ name: "email" }, { required: true });
     register({ name: "password" }, { required: true });
