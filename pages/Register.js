@@ -10,17 +10,29 @@ export default function RegisterPage({ navigation }) {
 
   const { register, setValue, handleSubmit, errors } = useForm();
   const onSubmit = function (data) {
-    fetch('snapi.epitech.eu/inscription', {
+    // console.log(data.email);
+    // console.log(data.password);
+    console.log(data)
+    // fetch('http://snapi.epitech.eu/inscription', {
+    //   method: 'POST',
+    //   headers: {
+    //     Accept: 'application/json',
+    //     'Content-Type': 'application/json'
+    //   },
+    //   body: JSON.stringify({
+    //     email: data.email,
+    //     password: data.password
+    //   })
+    // });
+    fetch('http://snapi.epitech.eu/inscription', {
       method: 'POST',
-      headers: {
-        Accept: 'application/json',
+      body: JSON.stringify(data),
+      headers: new Headers({
         'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        email: data.email,
-        password: data.password
       })
-    });
+    }).then(res => res.json())
+  .catch(error => console.error('Error: ', error))
+  .then(response => console.log('Success: ', response))
   }
   useEffect(() => {
     register({ name: "email" }, { required: true });
