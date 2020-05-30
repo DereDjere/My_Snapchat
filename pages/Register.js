@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, TextInput, Alert, Button, TouchableHighlight } 
 import { useForm } from "react-hook-form";
 import { color } from 'react-native-reanimated';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { NavigationEvents } from 'react-navigation';
 
 
 
@@ -33,6 +34,7 @@ export default function RegisterPage({ navigation }) {
     }).then(res => res.json())
   .catch(error => console.error('Error: ', error))
   .then(response => console.log('Success: ', response))
+  
   }
   useEffect(() => {
     register({ name: "email" }, { required: true });

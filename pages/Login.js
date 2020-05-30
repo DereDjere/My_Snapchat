@@ -7,7 +7,7 @@ import HomePage from "./Home";
 
 
 
-export default function LoginPage({ navigate }) {
+export default function LoginPage({ navigation : { navigate}}) {
 
   const { register, setValue, handleSubmit, errors } = useForm();
   // const onSubmit = data => Alert.alert("Form Data", JSON.stringify(data));
@@ -18,49 +18,32 @@ export default function LoginPage({ navigate }) {
   // }, [register]);
 
   onSubmit = async (data) => {
-    // console.log(data.email);
-    // console.log(data.password);
-    // console.log(data)
-    // fetch('http://snapi.epitech.eu/inscription', {
-    //   method: 'POST',
-    //   headers: {
-    //     Accept: 'application/json',
-    //     'Content-Type': 'application/json'
-    //   },
-    //   body: JSON.stringify({
-    //     email: data.email,
-    //     password: data.password
-    //   })
-    // });
+    
     const response = await fetch('http://snapi.epitech.eu/connection', {
       method: 'POST',
       body: JSON.stringify(data),
       headers: new Headers({
         'Content-Type': 'application/json'
       })
-    })/* .then(res => res.json())
-      .catch(error => console.error('Error: ', error))
-      .then(response => console.log('Success: ', response.data.token),
-      ) */
-      .then((response) => response.json())
-    if (response.data.token === undefined)
-      console.log('response.data.token');
-    else {
-      await AsyncStorage.setItem("token", response.data.token);
-      // this.setState({showHome: true});
-      // console.log(response.data.token);
-      let user = await AsyncStorage.getItem('token');
-      // let parsed = JSON.parse(user);  
-      // console.log('success :' + parsed.token); 
-      console.log('success :' + user);
-      return (
-        <View>
-          <Button title="TEST"></Button>
-        </View>
-      )
+    }).then((response) => response.json())
+      .then((response) => {
+        console.log(response)
+        if (response.data.token === undefined)
+          console.log('false')
+        else {
+          async () => {
+            try {
+              await AsyncStorage.setItem("token", response.data.token);
+            }
+            catch(error)
+            {
+              console.log(error)
+            }
+          }
+          navigate('UserPage')
+        }
+      })
 
-
-    }
     // .then((response) => {
     //   console.log(response);
     // //  AsyncStorage.setItem('userData', response.data.token)
@@ -91,35 +74,18 @@ export default function LoginPage({ navigate }) {
   //     alert(error)
   //   }
   // }
-  displayData = async () => {
+  const displayData = async () => {
     var found = false;
-    // try {
-      let user =  await AsyncStorage.getItem('token');
-      // let parsed = JSON.parse(user);  
-      alert(user);
-      console.log(user);
-      if (user !== null) {
-        alert(user);
-
-        found = true
-      }
-    // }
-    // catch (error) {
-    //   alert(error)
-    // }
-    return  found
+    let user = await AsyncStorage.getItem('token');
+    
+    if (user !== null) {
+      found = true
+    }
+    return found
   }
-
-  if (displayData() == true) {
-    alert(displayData())
-
-
-    return (
-      <View>
-        <Button title="TEST"></Button>
-      </View>
-    )
-
+  console.log('test')
+  if (displayData == true) {
+    console.log('testttt')
   } else {
     return (
 
