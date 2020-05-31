@@ -3,50 +3,54 @@ import { StyleSheet, Text, View, Image, Button, AsyncStorage } from 'react-nativ
 
 export default class HomePage extends React.Component {
 
-  constructor() {
-    super()
-    this.state = { data: [] }
+  constructor(props) {
+    super(props);
+    this.state = {
+      token: "",
+      usersSnap: []
+    };
 
-  }
-
-  async componentDidMount() {
-    try {
-      const response = await AsyncStorage.getItem('token');
-      this.setState({ data: response })
-    } catch (error) {
-      console.log(error);
+    VerifToken = async () => {
+      let tokenUser = await AsyncStorage.getItem("token")
+     
+      this.setState({ token: tokenUser })
     }
+    Logout = async () => {
+      await AsyncStorage.removeItem("token")
+      this.setState({ token: undefined })
+      
+    }
+    VerifToken()
   }
+  
 
+
+
+  
 
   render() {
     const { navigate } = this.props.navigation;
-    const onLogout = async () => {
-      try {
-        await AsyncStorage.removeItem('token')
-      }
-      catch (errors) {
-        console.log(errors)
-      }
-      navigate('HomePage')
-    }
-    console.log(this.state.data)
-    if (this.state.data != null) {
+    console.log(this.state.token + ' TEST')
+    
+    if (this.state.token != undefined) {
       return (
-        <View
-          style={{
-            backgroundColor: 'yellow',
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center'
-          }}
-        >
+        <View style={{
+          backgroundColor: 'yellow',
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}>
           <Button
-            title='Send Snap'
+            title='Friends'
+            onPress={() => navigate('UserPage')}
           />
           <Button
             title='Logout'
-            onPress={onLogout}
+            onPress={() => {
+              Logout()
+              VerifToken()
+              navigate('HomePage')
+            }}
           />
         </View>
       )
@@ -77,8 +81,6 @@ export default class HomePage extends React.Component {
       )
     }
   }
-
-
 }
 
   // }

@@ -6,9 +6,7 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 import HomePage from "./Home";
 import { TabRouter } from 'react-navigation';
 
-
-
-export default function LoginPage({ navigation : { navigate }}) {
+export default function LoginPage({ navigation: { navigate } }) {
 
   const { register, setValue, handleSubmit, errors } = useForm();
   // const onSubmit = data => Alert.alert("Form Data", JSON.stringify(data));
@@ -17,34 +15,27 @@ export default function LoginPage({ navigation : { navigate }}) {
   //   register({ name: "email" }, { required: true });
   //   register({ name: "password" }, { required: true });
   // }, [register]);
-  
-  
+
+
   onSubmit = async (data) => {
-    
+
     const response = await fetch('http://snapi.epitech.eu/connection', {
       method: 'POST',
       body: JSON.stringify(data),
       headers: new Headers({
         'Content-Type': 'application/json'
       })
-    }).then((response) => response.json())
-      .then((response) => {
-        
-        if (response.data.token === undefined)
-          console.log('false')
-        else {
-          async () => {
-            try {
-              await AsyncStorage.setItem("token", response.data.token);
-            }
-            catch(error)
-            {
-              console.log(error)
-            }
-          }
-          navigate('HomePage');
-        }
-      })
+      }).then((response) => response.json())
+
+    if (response.data.token === undefined)
+      console.log('false')
+    else {
+
+      await AsyncStorage.setItem("token", JSON.stringify(response.data.token));
+
+      navigate('UserPage');
+    }
+
 
     // .then((response) => {
     //   console.log(response);
@@ -79,7 +70,7 @@ export default function LoginPage({ navigation : { navigate }}) {
   const displayData = async () => {
     var found = false;
     let user = await AsyncStorage.getItem('token');
-    
+
     if (user !== null) {
       found = true
     }

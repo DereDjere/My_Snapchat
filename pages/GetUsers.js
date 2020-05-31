@@ -16,15 +16,14 @@ export default class GetUsersPage extends React.Component {
     async componentDidMount() {
         let tokenUser = await AsyncStorage.getItem("token")
         this.setState({token: tokenUser })
-        alert(this.state.token)
         const getUsers = fetch("http://snapi.epitech.eu/all", {
             method: "GET",
             headers: {
-                "token": this.state.token
+                "token": "U3LjaGHqBJNrhtxkoiGWQWJq"
             }
         }).then(response => response.json())
         .then(response => {
-            // console.log(response)
+            console.log(response)
              this.setState({usersSnap: response})
         })
         
@@ -35,6 +34,7 @@ export default class GetUsersPage extends React.Component {
     render() {
         console.log(this.state.usersSnap)
         return (
+        
             <View
                 style={{
                     backgroundColor: 'yellow',
@@ -43,9 +43,7 @@ export default class GetUsersPage extends React.Component {
                     alignItems: 'center'
                 }}
             >
-                <Button
-                    title='Send Snap'
-               />
+            <Text>{this.state.usersSnap} </Text>
             </View>
         )
     }
